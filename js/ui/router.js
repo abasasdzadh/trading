@@ -102,7 +102,7 @@ export class Router {
    */
   navigate(path) {
     // Strip leading # or / if present
-    const cleaned = path.replace(/^(#/?|/)/, '');
+    const cleaned = path.replace(/^#?\/?/, '');
     window.location.hash = `#/${cleaned}`;
   }
 
