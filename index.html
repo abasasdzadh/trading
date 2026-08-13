@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI Trading Analyzer - Client-side trading decision support system">
+  <meta name="theme-color" content="#0f1117">
+  <title>AI Trading Analyzer</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://unpkg.com/lightweight-charts@5.0.1/dist/lightweight-charts.standalone.production.js"></script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
+</head>
+<body>
+  <!-- App Shell -->
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="app-sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <span class="sidebar-logo-icon">📊</span>
+        <span class="sidebar-logo-text">Trading Analyzer</span>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-section">
+          <div class="sidebar-section-header">Analysis <span class="section-toggle">▼</span></div>
+          <div class="sidebar-section-items">
+            <a href="#/dashboard" class="sidebar-item active" data-route="dashboard">
+              <span class="sidebar-item-icon">📊</span>
+              <span class="sidebar-item-label">Dashboard</span>
+            </a>
+            <a href="#/chart/BTCUSDT" class="sidebar-item" data-route="chart">
+              <span class="sidebar-item-icon">📈</span>
+              <span class="sidebar-item-label">Chart</span>
+            </a>
+            <a href="#/markets" class="sidebar-item" data-route="markets">
+              <span class="sidebar-item-icon">🌐</span>
+              <span class="sidebar-item-label">Markets</span>
+            </a>
+            <a href="#/scanner" class="sidebar-item" data-route="scanner">
+              <span class="sidebar-item-icon">🔍</span>
+              <span class="sidebar-item-label">Scanner</span>
+            </a>
+            <a href="#/signals" class="sidebar-item" data-route="signals">
+              <span class="sidebar-item-icon">🎯</span>
+              <span class="sidebar-item-label">Signals</span>
+            </a>
+            <a href="#/strategies" class="sidebar-item" data-route="strategies">
+              <span class="sidebar-item-icon">🧠</span>
+              <span class="sidebar-item-label">Strategies</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-section-header">Trading <span class="section-toggle">▼</span></div>
+          <div class="sidebar-section-items">
+            <a href="#/backtest" class="sidebar-item" data-route="backtest">
+              <span class="sidebar-item-icon">⏪</span>
+              <span class="sidebar-item-label">Backtest</span>
+            </a>
+            <a href="#/paper-trading" class="sidebar-item" data-route="paper-trading">
+              <span class="sidebar-item-icon">📝</span>
+              <span class="sidebar-item-label">Paper Trading</span>
+            </a>
+            <a href="#/journal" class="sidebar-item" data-route="journal">
+              <span class="sidebar-item-icon">📔</span>
+              <span class="sidebar-item-label">Journal</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-section-header">Tools <span class="section-toggle">▼</span></div>
+          <div class="sidebar-section-items">
+            <a href="#/alerts" class="sidebar-item" data-route="alerts">
+              <span class="sidebar-item-icon">🔔</span>
+              <span class="sidebar-item-label">Alerts</span>
+            </a>
+            <a href="#/settings" class="sidebar-item" data-route="settings">
+              <span class="sidebar-item-icon">⚙️</span>
+              <span class="sidebar-item-label">Settings</span>
+            </a>
+            <a href="#/about" class="sidebar-item" data-route="about">
+              <span class="sidebar-item-icon">ℹ️</span>
+              <span class="sidebar-item-label">About</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <span class="sidebar-capability-badge level-0" id="capability-badge">Lv 0</span>
+      </div>
+    </aside>
+
+    <!-- Drawer Overlay (mobile) -->
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+
+    <!-- Main Area -->
+    <div class="app-main">
+      <!-- Demo Banner -->
+      <div id="demo-banner-container"></div>
+
+      <!-- Top Bar -->
+      <header class="app-topbar" id="topbar">
+        <button class="topbar-hamburger" id="hamburger-btn" aria-label="Menu">☰</button>
+        <div class="topbar-symbol" id="symbol-selector">
+          <span class="symbol-label">BTCUSDT</span>
+        </div>
+        <div class="topbar-actions">
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <div class="app-content" id="app-content">
+        <div class="spinner-wrapper" style="margin:100px auto;"><div class="spinner"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- App Entry -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
