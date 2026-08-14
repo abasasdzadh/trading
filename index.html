@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI Trading Analyzer - Client-side trading decision support system">
+  <meta name="theme-color" content="#0f1117">
+  <title>AI Trading Analyzer</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://unpkg.com/lightweight-charts@5.0.1/dist/lightweight-charts.standalone.production.js"></script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
+  <!-- SVG icon sprite -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="icon-dashboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="4" rx="1.5"/><rect x="14" y="11" width="7" height="10" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></symbol>
+    <symbol id="icon-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></symbol>
+    <symbol id="icon-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+    <symbol id="icon-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="icon-brain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4v0a4 4 0 0 1 0 8H8a4 4 0 0 1 0-8v0a4 4 0 0 1 4-4z"/><path d="M12 2v8"/><path d="M8 8h8"/></symbol>
+    <symbol id="icon-rewind" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></symbol>
+    <symbol id="icon-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></symbol>
+    <symbol id="icon-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="14" y2="11"/></symbol>
+    <symbol id="icon-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+    <symbol id="icon-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+    <symbol id="icon-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></symbol>
+    <symbol id="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></symbol>
+    <symbol id="icon-warning" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+    <symbol id="icon-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></symbol>
+    <symbol id="icon-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></symbol>
+    <symbol id="icon-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+    <symbol id="icon-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></symbol>
+    <symbol id="icon-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></symbol>
+  </svg>
+  <style>
+    .sidebar-item-icon svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .sidebar-logo-icon svg { width: 22px; height: 22px; flex-shrink: 0; }
+    .section-toggle svg { width: 12px; height: 12px; }
+    .topbar-hamburger svg { width: 20px; height: 20px; }
+  </style>
+</head>
+<body>
+  <!-- App Shell -->
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="app-sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <span class="sidebar-logo-icon"><svg><use href="#icon-logo"/></svg></span>
+        <span class="sidebar-logo-text">Trading Analyzer</span>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-section">
+          <div class="sidebar-section-header"><span data-i18n="sidebar.analysis">Analysis</span> <span class="section-toggle"><svg><use href="#icon-chevron"/></svg></span></div>
+          <div class="sidebar-section-items">
+            <a href="#/dashboard" class="sidebar-item active" data-route="dashboard">
+              <span class="sidebar-item-icon"><svg><use href="#icon-dashboard"/></svg></span>
+              <span class="sidebar-item-label" data-i18n="nav.dashboard">Dashboard</span>
+            </a>
+            <a href="#/chart/BTCUSDT" class="sidebar-item" data-route="chart">
+              <span class="sidebar-item-icon"><svg><use href="#icon-chart"/></svg></span>
+              <span class="sidebar-item-label" data-i18n="nav.chart">Chart</span>
+            </a>
+            <a href="#/markets" class="sidebar-item" data-route="markets">
+              <span class="sidebar-item-icon"><svg><use href="#icon-globe"/></svg></span>
+              <span class="sidebar-item-label" data-i18n="nav.markets">Markets</span>
+            </a>
+            <a href="#/scanner" class="sidebar-item" data-route="scanner">
+              <span class="sidebar-item-icon"><svg><use href="#icon-search"/></svg></span>
+              <span class="sidebar-item-label" data-i18n="nav.scanner">Scanner</span>
+            </a>
+            <a href="#/signals" class="sidebar-item" data-route="signals">
+              <span class="sidebar-item-icon"><svg><use href="#icon-target"/></svg></span>
+              <span class="sidebar-item-label" data-i18n="nav.signals">Signals</span>
+            </a>
+            <a href="#/strategies" class="sidebar-item" data-route="strategies">
+              <span class="sidebar-item-icon"><svg><use href="#icon-brain"/></svg></span>
+              <span class="sidebar-item-label" data-i18n="nav.strategies">Strategies</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-section-header"><span data-i18n="sidebar.trading">Trading</span> <span class="section-toggle"><svg><use href="#icon-chevron"/></svg></span></div>
+          <div class="sidebar-section-items">
+            <a href="#/backtest" class="sidebar-item" data-route="backtest">
+              <span class="sidebar-item-icon"><svg><use href="#icon-rewind"/></svg></span>
+              <span class="sidebar-item-label" data-i18n="nav.backtest">Backtest</span>
+            </a>
+            <a href="#/paper-trading" class="sidebar-item" data-route="paper-trading">
+              <span class="sidebar-item-icon"><svg><use href="#icon-edit"/></svg></span>
+              <span class="sidebar-item-label" data-i18n="nav.paper-trading">Paper Trading</span>
+            </a>
+            <a href="#/journal" class="sidebar-item" data-route="journal">
+              <span class="sidebar-item-icon"><svg><use href="#icon-book"/></svg></span>
+              <span class="sidebar-item-label" data-i18n="nav.journal">Journal</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-section-header"><span data-i18n="sidebar.tools">Tools</span> <span class="section-toggle"><svg><use href="#icon-chevron"/></svg></span></div>
+          <div class="sidebar-section-items">
+            <a href="#/alerts" class="sidebar-item" data-route="alerts">
+              <span class="sidebar-item-icon"><svg><use href="#icon-bell"/></svg></span>
+              <span class="sidebar-item-label" data-i18n="nav.alerts">Alerts</span>
+            </a>
+            <a href="#/settings" class="sidebar-item" data-route="settings">
+              <span class="sidebar-item-icon"><svg><use href="#icon-settings"/></svg></span>
+              <span class="sidebar-item-label" data-i18n="nav.settings">Settings</span>
+            </a>
+            <a href="#/about" class="sidebar-item" data-route="about">
+              <span class="sidebar-item-icon"><svg><use href="#icon-info"/></svg></span>
+              <span class="sidebar-item-label" data-i18n="nav.about">About</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <span class="sidebar-capability-badge level-0" id="capability-badge">Lv 0</span>
+      </div>
+    </aside>
+
+    <!-- Drawer Overlay (mobile) -->
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+
+    <!-- Main Area -->
+    <div class="app-main">
+      <!-- Demo Banner -->
+      <div id="demo-banner-container"></div>
+
+      <!-- Top Bar -->
+      <header class="app-topbar" id="topbar">
+        <button class="topbar-hamburger" id="hamburger-btn" aria-label="Menu"><svg><use href="#icon-menu"/></svg></button>
+        <div class="topbar-symbol" id="symbol-selector">
+          <span class="symbol-label">BTCUSDT</span>
+        </div>
+        <div class="topbar-actions">
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <div class="app-content" id="app-content">
+        <div class="spinner-wrapper" style="margin:100px auto;"><div class="spinner"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- App Entry -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
